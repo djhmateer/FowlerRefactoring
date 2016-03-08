@@ -1,33 +1,25 @@
-using System;
 using System.Collections;
 
 namespace StartingPoint
 {
-	/// <summary>
-	/// Customer represents a customer of the store.
-	/// </summary>
-	public class Customer
+    /// <summary>
+    /// Customer represents a customer of the store.
+    /// </summary>
+    public class Customer
 	{
 		/* Fields */
-		
-		private string m_Name;
-		private ArrayList  m_Rentals = new ArrayList();
+        private ArrayList  m_Rentals = new ArrayList();
 
 		/* Constructor */
 		public Customer(string name)
 		{
-			m_Name = name;
+			Name = name;
 		}
 
 		/* Properties */
+		public string Name { get; }
 
-		public string Name
-		{
-			get {return m_Name;}
-		}
-
-		/* Methods */
-
+        /* Methods */
 		public void AddRental(Rental arg)
 		{
 			m_Rentals.Add(arg);
@@ -38,7 +30,7 @@ namespace StartingPoint
 			double totalAmount = 0;
 			int frequentRenterPoints = 0;
 			IEnumerator rentals = m_Rentals.GetEnumerator();
-			string result = "Rental record for " + m_Name + "\n";
+			string result = "Rental record for " + Name + "\n";
 			while ( rentals.MoveNext() )
 			{
 				double thisAmount = 0;
