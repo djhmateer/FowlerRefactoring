@@ -16,30 +16,7 @@ namespace StartingPoint
 
         public double GetCharge()
         {
-            double thisAmount = 0;
-            switch (Movie.PriceCode)
-            {
-                case PriceCodes.Regular:
-                    thisAmount += 2;
-                    if (DaysRented > 2)
-                    {
-                        thisAmount += (DaysRented - 2) * 1.5;
-                    }
-                    break;
-
-                case PriceCodes.NewRelease:
-                    thisAmount += DaysRented * 3;
-                    break;
-
-                case PriceCodes.Childrens:
-                    thisAmount += 1.5;
-                    if (DaysRented > 3)
-                    {
-                        thisAmount = (DaysRented - 3) * 1.5;
-                    }
-                    break;
-            }
-            return thisAmount;
+            return Movie.GetCharge(DaysRented);
         }
 
         public int GetFrequentRenterPoints()

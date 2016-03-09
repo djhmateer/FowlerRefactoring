@@ -29,5 +29,33 @@ namespace StartingPoint
 		/* Properties */
 		public PriceCodes PriceCode { get; set; }
 	    public string Title { get; }
+
+	    public double GetCharge(int daysRented)
+	    {
+            double thisAmount = 0;
+            switch (PriceCode)
+            {
+                case PriceCodes.Regular:
+                    thisAmount += 2;
+                    if (daysRented > 2)
+                    {
+                        thisAmount += (daysRented - 2) * 1.5;
+                    }
+                    break;
+
+                case PriceCodes.NewRelease:
+                    thisAmount += daysRented * 3;
+                    break;
+
+                case PriceCodes.Childrens:
+                    thisAmount += 1.5;
+                    if (daysRented > 3)
+                    {
+                        thisAmount = (daysRented - 3) * 1.5;
+                    }
+                    break;
+            }
+            return thisAmount;
+        }
 	}
 }
