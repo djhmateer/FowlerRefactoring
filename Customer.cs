@@ -31,53 +31,45 @@ namespace StartingPoint
 			int frequentRenterPoints = 0;
 			IEnumerator rentals = m_Rentals.GetEnumerator();
 			string result = "Rental record for " + Name + "\n";
-			while ( rentals.MoveNext() )
-			{
-				double thisAmount = 0;
-				Rental each = (Rental)rentals.Current;
+            while (rentals.MoveNext())
+            {
+                Rental each = (Rental)rentals.Current;
 
-				// Determine amounts for each line
-				switch(each.Movie.PriceCode)
-				{
-					case PriceCodes.Regular:
-						thisAmount += 2;
-						if (each.DaysRented > 2)
-						{
-							thisAmount += (each.DaysRented - 2) * 1.5;
-						}
-						break;
+                //frequentRenterPoints += each.GetFrequentRenterPoints();
 
-					case PriceCodes.NewRelease:
-						thisAmount += each.DaysRented *3;
-						break;
+                // Show figures for this rental
+                result += "\t" + each.Movie.Title + "\t" + each.GetCharge() + "\n";
+                //totalAmount += each.GetCharge();
+            }
 
-					case PriceCodes.Childrens:
-						thisAmount += 1.5;
-						if (each.DaysRented > 3)
-						{
-							thisAmount = (each.DaysRented - 3) * 1.5;
-						}
-						break;
-				}
-
-				// Add frequent renter points
-				frequentRenterPoints++;
-
-				// Add bonus for a two-day new-release rental
-				if ((each.Movie.PriceCode == PriceCodes.NewRelease) && (each.DaysRented > 1))
-				{
-					frequentRenterPoints ++;
-				}
-
-				// Show figures for this rental
-				result += "\t" + each.Movie.Title + "\t" + thisAmount.ToString() + "\n";
-				totalAmount += thisAmount;
-			}
-
-			// Add footer lines
-			result += "Amount owed is " + totalAmount.ToString() + "\n";
-			result += "You earned " + frequentRenterPoints.ToString() + " frequent renter points.";
+            // Add footer lines
+            result += "Amount owed is " + GetTotalCharge() + "\n";
+            result += "You earned " + GetTotalFrequentRentalPoints() + " frequent renter points.";
 			return result;
 		}
+
+        private double GetTotalFrequentRentalPoints()
+        {
+            double result = 0;
+            IEnumerator rentals = m_Rentals.GetEnumerator();
+            while (rentals.MoveNext())
+            {
+                Rental each = (Rental)rentals.Current;
+                result += each.GetFrequentRenterPoints();
+            }
+            return result;
+        }
+
+        private double GetTotalCharge()
+        {
+            double result = 0;
+            IEnumerator rentals = m_Rentals.GetEnumerator();
+            while (rentals.MoveNext())
+            {
+                Rental each = (Rental)rentals.Current;
+                result += each.GetCharge();
+            }
+            return result;
+        }
 	}
 }
